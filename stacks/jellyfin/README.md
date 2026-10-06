@@ -1,8 +1,10 @@
 # jellyfin (Docker Compose)
 
-Self-hosted [Jellyfin](https://jellyfin.org) media server: web UI, REST API, and
-LAN/DLNA discovery. Ships with a one-shot initializer that completes the first-run
-wizard automatically, so the server is usable the moment `docker compose up` finishes.
+Self-hosted [Jellyfin](https://jellyfin.org) media server for testing: web UI,
+REST API, and LAN/DLNA discovery, seeded with public-domain / Creative Commons
+content from archive.org — not intended as a production media library. Ships with
+a one-shot initializer that completes the first-run wizard automatically, so the
+server is usable the moment `docker compose up` finishes.
 
 ## Setup
 
@@ -32,8 +34,8 @@ otherwise seed a known default password.
 ## Media pipeline (host-side)
 
 `scripts/` + `queue/` also carry a small archive.org → Jellyfin pipeline for
-public-domain / CC content. Bundled example manifests cover movies, shows,
-music, music videos, and books.
+public-domain / CC content — the source of the test library. Bundled example
+manifests cover movies, shows, music, music videos, and books.
 
 ```bash
 # 1. optional: search archive.org and pick files

@@ -6,7 +6,7 @@ services:
     ports:
       - "8096:8096"   # HTTP web UI + API
     volumes:
-      # The media library — one folder is enough; subfolders become library types
+      # The test media library — one folder is enough; subfolders become library types
       - ${MEDIA_DIR:-./media}:/media
       # Optional local plugin dev — set PLUGINS_DIR in .env, drop plugin build
       # output there, restart container
