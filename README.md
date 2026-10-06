@@ -21,6 +21,7 @@ stacks/
 | Stack                                              | What it is                                  | Ports |
 |----------------------------------------------------|---------------------------------------------|-------|
 | [crawl4ai](stacks/crawl4ai/)                       | Self-hosted crawler: REST API + MCP server  | 11235 |
+| [jellyfin](stacks/jellyfin/)                       | Media server: web UI + REST API, auto wizard, archive.org library pipeline | 8096 |
 
 ## Usage
 

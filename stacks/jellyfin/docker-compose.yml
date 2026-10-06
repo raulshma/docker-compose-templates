@@ -1,0 +1,38 @@
+services:
+  jellyfin:
+    image: jellyfin/jellyfin:12
+    container_name: jellyfin
+    restart: unless-stopped
+    ports:
+      - "8096:8096"   # HTTP web UI + API
+    volumes:
+      # The media library — one folder is enough; subfolders become library types
+      - ${MEDIA_DIR:-./media}:/media
+      # Optional local plugin dev — set PLUGINS_DIR in .env, drop plugin build
+      # output there, restart container
+      # - ${PLUGINS_DIR}:/config/plugins
+      # Server config/metadata/cache kept in named volumes so they survive upgrades
+      - jellyfin-config:/config
+      - jellyfin-cache:/cache
+    environment:
+      # Publishing/DLNA discovery on the LAN
+      - JELLYFIN_PublishedServerUrl=${JELLYFIN_PUBLISHED_URL:-http://localhost:8096}
+
+  # One-shot: completes Jellyfin's first-run wizard so the server comes up
+  # with the admin credentials from .env. Exits immediately after; skips itself
+  # if the wizard was already completed.
+  jellyfin-setup:
+    image: curlimages/curl:latest
+    container_name: jellyfin-setup
+    depends_on:
+      - jellyfin
+    restart: "no"
+    volumes:
+      - ./scripts/jellyfin-init.sh:/init-admin.sh:ro
+    environment:
+      - JELLYFIN_ADMIN_USER=${JELLYFIN_ADMIN_USER:-admin}
+      - JELLYFIN_ADMIN_PASS=${JELLYFIN_ADMIN_PASS:?required - set in .env}
+
+volumes:
+  jellyfin-config:
+  jellyfin-cache:
