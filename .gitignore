@@ -1,0 +1,9 @@
+# secrets — never commit
+.env
+
+# generated client snippets (contain live tokens)
+**/mcp/*.mcp.json
+
+# OS junk
+.DS_Store
+Thumbs.db

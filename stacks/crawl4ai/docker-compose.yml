@@ -1,0 +1,34 @@
+services:
+  crawl4ai:
+    image: unclecode/crawl4ai:latest
+    container_name: crawl4ai
+    ports:
+      - "11235:11235"
+    environment:
+      # Required — without a token the server binds to loopback only and the
+      # published port returns connection resets. Generate: openssl rand -hex 32
+      CRAWL4AI_API_TOKEN: ${CRAWL4AI_API_TOKEN:?required - set in .env (generate with openssl rand -hex 32)}
+      # Optional LLM keys for /ask and LLM extraction strategies (passthrough from host shell or .env)
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+      GROQ_API_KEY: ${GROQ_API_KEY:-}
+      DEEPSEEK_API_KEY: ${DEEPSEEK_API_KEY:-}
+      GEMINI_API_KEY: ${GEMINI_API_KEY:-}
+      TOGETHER_API_KEY: ${TOGETHER_API_KEY:-}
+      MISTRAL_API_KEY: ${MISTRAL_API_KEY:-}
+      LLM_PROVIDER: ${LLM_PROVIDER:-}
+    # Chromium needs >64MB shared memory or headless tabs crash
+    shm_size: "1gb"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:11235/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    deploy:
+      resources:
+        limits:
+          memory: 4g
+        reservations:
+          memory: 1g
